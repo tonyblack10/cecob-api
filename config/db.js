@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
   , fs = require('fs')
-  , path = require('path');
+  , path = require('path')
+  , operatorsAliases = require('./sequelize-operators-alias');
 
 let database = undefined;
 
@@ -12,7 +13,7 @@ module.exports = () => {
       process.env.DB_SENHA,
       {
         dialect: 'postgres',
-        operatorsAliases: false,
+        operatorsAliases,
         host: process.env.DB_HOST,
         port: process.env.DB_PORTA,
         logging: false,

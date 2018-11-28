@@ -1,6 +1,8 @@
 const bodyParser = require('body-parser')
   , cors = require('cors')
-  , logger = require('morgan');
+  , logger = require('morgan')
+  , compression = require('compression')
+  , helmet = require('helmet');
 
 const tipoDeLog = process.env.NODE_ENV != 'production' ? 'dev' : '';
 
@@ -10,12 +12,16 @@ module.exports = app => {
       exposedHeaders: 'x-access-token',
       allowedHeaders: '*'
     }),
+    helmet(),
+    compression(),
     bodyParser.json(),
     bodyParser.urlencoded({
       extended: true
     }),
-    logger(tipoDeLog)
   )(app);
+
+  if(process.env.NODE_ENV !== 'test')
+    app.use(logger(tipoDeLog));
 };
 
 const register = (...middlewares) => app => 

@@ -18,7 +18,10 @@ module.exports = (sequelize, DataType) => {
     permissao: {
       type: DataType.ENUM,
       allowNull: false,
-      values: ['ADMIN', 'SECRETARIA']
+      values: ['ADMIN', 'SECRETARIA'], 
+      validate: {
+        isIn: [['ADMIN', 'SECRETARIA']]
+      }
     },
     email: {
       type: DataType.STRING(200),
@@ -60,10 +63,13 @@ module.exports = (sequelize, DataType) => {
   });
 
   Usuario.beforeCreate(usuario => {
-    return bcrypt.hash(usuario.senha, 10)
-      .then(hash => {
-        usuario.senha = hash;
-      });
+    bcrypt.hash(usuario.senha, 10, function(err, hash) {
+      usuario.senha = hash;
+    });
+    // return bcrypt.hash(usuario.senha, 10)
+    //   .then(hash => {
+    //     usuario.senha = hash;
+    //   });
   });
 
   Usuario.ehSenhaValida = (senhaHash, senhaTexto) => 

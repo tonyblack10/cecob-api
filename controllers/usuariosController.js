@@ -16,7 +16,7 @@ module.exports = app => {
       try {
         const usuario = await usuarioDao.salva(novoUsuario);
         res.location(`/api/v1/usuarios/${usuario.id}`);
-        res.json({msg: 'Usuário cadastrado com sucesso'}).status(201);
+        res.sendStatus(201);
       } catch(err) {
         next(err);
       }
@@ -25,7 +25,7 @@ module.exports = app => {
       try {
         const usuario = await usuarioDao.buscaPorId(req.params.id);
         if(!usuario) 
-          res.json({msg: 'Usuário não encontrado'}).status(404);
+          res.sendStatus(404);
         else 
           res.json(usuario);
       } catch(err) {
@@ -36,17 +36,16 @@ module.exports = app => {
       const { nome, email, permissao } = req.body;
       try {
         await usuarioDao.edita({nome, email, permissao}, req.params.id);
-        res.json({msg: 'Usuário editado com sucesso'}).status(204);
+        res.sendStatus(204);
       } catch(err) {
-        console.log(err);
-        res.status(500).json(err);
+        next(err);
       }
     },
     alteraStatus: async (req, res) => {
       const { status } = req.body;
       try {
         await usuarioDao.editaStatus(status, req.params.id);
-        res.json({msg: 'Status do usuário alterado com sucesso'}).status(204);
+        res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);
       }
@@ -54,7 +53,7 @@ module.exports = app => {
     remove: async (req, res) => {
       try {
         await usuarioDao.remove(req.params.id);
-        res.json({msg: 'Usuário removido com sucesso'}).status(204);
+        res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);
       }
