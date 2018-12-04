@@ -14,7 +14,10 @@ module.exports = app => {
             res.sendStatus(401);
             return;
           }
-          if(Usuario.ehSenhaValida(usuario.senha, senha)) {
+          const senhaValida = await Usuario.ehSenhaValida(usuario.senha, senha);
+          if(!senhaValida) {
+            res.sendStatus(401);
+          } else {
             const payload = { 
               id: usuario.id,
               nome: usuario.nome,
@@ -28,8 +31,6 @@ module.exports = app => {
             res.set('Content-Type', 'application/json');
             res.set('x-access-token', token);
             res.sendStatus(204);
-          } else {
-            res.sendStatus(401);
           }
         } catch (err) {
           console.log(err);
