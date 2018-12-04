@@ -14,7 +14,10 @@ module.exports = app => {
             res.sendStatus(401);
             return;
           }
-          if(Usuario.ehSenhaValida(usuario.senha, senha)) {
+          const senhaValida = await Usuario.ehSenhaValida(usuario.senha, senha);
+          if(!senhaValida) {
+            res.sendStatus(401);
+          } else {
             const payload = { 
               id: usuario.id,
               nome: usuario.nome,
@@ -25,10 +28,9 @@ module.exports = app => {
             const secret = process.env.JWT_SECRET;
             const token = jwt.sign(payload, secret, options);
 
+            res.set('Content-Type', 'application/json');
             res.set('x-access-token', token);
-            res.json({success: true}).status(200);
-          } else {
-            res.sendStatus(401);
+            res.sendStatus(204);
           }
         } catch (err) {
           console.log(err);

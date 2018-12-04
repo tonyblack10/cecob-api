@@ -1,12 +1,10 @@
-const { Op } = require('sequelize');
-
 module.exports = app => {
   const { Usuario } = app.config.db.models;
 
   return {
     buscaTodos: id => {
       return Usuario.findAll({
-        where: { id: {[Op.ne]: id} },
+        where: { id: {$ne: id} },
         attributes: ['id', 'nome', 'permissao', 'email', 'status'],
         order: [['nome', 'ASC']]
       });

@@ -18,7 +18,10 @@ module.exports = (sequelize, DataType) => {
     permissao: {
       type: DataType.ENUM,
       allowNull: false,
-      values: ['ADMIN', 'SECRETARIA']
+      values: ['ADMIN', 'SECRETARIA'], 
+      validate: {
+        isIn: [['ADMIN', 'SECRETARIA']]
+      }
     },
     email: {
       type: DataType.STRING(200),
@@ -56,6 +59,7 @@ module.exports = (sequelize, DataType) => {
     }
   }, 
   {
+    timestamps: false,
     tableName: 'usuarios'
   });
 
