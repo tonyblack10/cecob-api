@@ -16,6 +16,7 @@ module.exports = app => {
       try {
         const usuario = await usuarioDao.salva(novoUsuario);
         res.location(`/api/v1/usuarios/${usuario.id}`);
+        res.set('Content-Type', 'application/json');
         res.sendStatus(201);
       } catch(err) {
         next(err);
@@ -36,6 +37,7 @@ module.exports = app => {
       const { nome, email, permissao } = req.body;
       try {
         await usuarioDao.edita({nome, email, permissao}, req.params.id);
+        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         next(err);
@@ -45,6 +47,7 @@ module.exports = app => {
       const { status } = req.body;
       try {
         await usuarioDao.editaStatus(status, req.params.id);
+        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);
@@ -53,6 +56,7 @@ module.exports = app => {
     remove: async (req, res) => {
       try {
         await usuarioDao.remove(req.params.id);
+        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);

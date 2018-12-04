@@ -14,8 +14,9 @@ module.exports = app => {
       const { descricao } = req.body;
       try {
         const credor = await credorDao.salva({descricao});
+        res.set('Content-Type', 'application/json');
         res.location(`/api/v1/credores/${credor.id}`);
-        res.sendStatus(201);
+        res.status(201).json(credor);
       } catch(err) {
         next(err);
       }
@@ -34,6 +35,7 @@ module.exports = app => {
       const { descricao } = req.body;
       try {
         await credorDao.edita({descricao}, req.params.id);
+        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);
@@ -42,6 +44,7 @@ module.exports = app => {
     remove: async (req, res) => {
       try {
         await credorDao.remove(req.params.id);
+        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);

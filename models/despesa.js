@@ -84,16 +84,10 @@ module.exports = (sequelize, DataType) => {
         min: 0
       },
       defaultValue: 0.0
-    },
-    observacoes: {
-      type: DataType.STRING,
-      defaultValue: false,
-      validate: {
-        len: [5, 255]
-      }
     }
   }, 
   {
+    timestamps: false,
     tableName: 'despesas'
   });
 

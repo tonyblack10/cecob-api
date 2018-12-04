@@ -59,17 +59,15 @@ module.exports = (sequelize, DataType) => {
     }
   }, 
   {
+    timestamps: false,
     tableName: 'usuarios'
   });
 
   Usuario.beforeCreate(usuario => {
-    bcrypt.hash(usuario.senha, 10, function(err, hash) {
-      usuario.senha = hash;
-    });
-    // return bcrypt.hash(usuario.senha, 10)
-    //   .then(hash => {
-    //     usuario.senha = hash;
-    //   });
+    return bcrypt.hash(usuario.senha, 10)
+      .then(hash => {
+        usuario.senha = hash;
+      });
   });
 
   Usuario.ehSenhaValida = (senhaHash, senhaTexto) => 

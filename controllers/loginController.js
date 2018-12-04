@@ -25,8 +25,9 @@ module.exports = app => {
             const secret = process.env.JWT_SECRET;
             const token = jwt.sign(payload, secret, options);
 
+            res.set('Content-Type', 'application/json');
             res.set('x-access-token', token);
-            res.json({success: true}).status(200);
+            res.sendStatus(204);
           } else {
             res.sendStatus(401);
           }

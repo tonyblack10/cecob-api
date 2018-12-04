@@ -4,8 +4,6 @@ const bodyParser = require('body-parser')
   , compression = require('compression')
   , helmet = require('helmet');
 
-const tipoDeLog = process.env.NODE_ENV != 'production' ? 'dev' : '';
-
 module.exports = app => {
   register(
     cors({
@@ -20,8 +18,10 @@ module.exports = app => {
     }),
   )(app);
 
-  if(process.env.NODE_ENV !== 'test')
-    app.use(logger(tipoDeLog));
+  if(process.env.NODE_ENV === 'development')
+    app.use(logger('dev'));
+  else if(process.env.NODE_ENV === 'production')
+    app.use(logger());
 };
 
 const register = (...middlewares) => app => 
