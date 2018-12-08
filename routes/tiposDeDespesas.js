@@ -3,6 +3,13 @@ const tokenUtil = require('../utils/tokenUtil');
 module.exports = app => {
   const { tiposDeDespesasController } = app.controllers;
 
+  /**
+   * @apiDefine TipoDeDespesaPayload
+   * @apiSuccess {Number} id ID do tipo de despesa.
+   * @apiSuccess {String} descricao Descrição do tipo de despesa.
+   * 
+   */
+
   app.route('/api/v1/tipos-despesas')
     .all(tokenUtil.validaToken)
     /**
@@ -45,8 +52,7 @@ module.exports = app => {
      * @apiHeaderExample {json} Header
      *  {"Authorization": "Bearer xyz.abc.123.hgf"}
      * 
-     * @apiSuccess {Number} id ID do tipo de despesa.
-     * @apiSuccess {String} descricao Descrição do tipo de despesa.
+     * @apiUse TipoDeDespesaPayload
      * @apiSuccessExample {json} Payload
      *  HTTP/1.1 200 OK
      *  [
@@ -80,8 +86,7 @@ module.exports = app => {
      * 
      * @apiParam {Number} id ID do tipo de despesa
      * 
-     * @apiSuccess {Number} id ID do tipo de despesa.
-     * @apiSuccess {String} descricao Descrição do tipo de despesa.
+    *  @apiUse TipoDeDespesaPayload
      * @apiSuccessExample {json} Payload
      *  HTTP/1.1 200 OK
      * {

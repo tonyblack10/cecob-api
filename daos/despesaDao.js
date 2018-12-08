@@ -37,6 +37,6 @@ const _montaFiltro = dados => {
     .comVencimentoEntre(dados.dataVencimentoDe, dados.dataVencimentoAte)
     .comStatusPagamento(dados.statusPagamento)
     .doCredor(dados.credorId)
-    .doTipo(dados.tipo)
+    .doTipo(dados.tipoId)
     .build();
 }
