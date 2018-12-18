@@ -34,9 +34,9 @@ module.exports = app => {
       }
     },
     edita: async (req, res) => {
-      const novaDespesa = _criaDespesa(req.body);
+      const despesaEditada = _criaDespesa(req.body);
       try {
-        await despesaDao.edita(novaDespesa, req.params.id);
+        await despesaDao.edita(despesaEditada, req.params.id);
         res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {

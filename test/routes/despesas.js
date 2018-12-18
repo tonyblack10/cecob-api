@@ -3,7 +3,7 @@ const faker = require('faker')
 const DespesaFakeBuilder = require('../builders/DespesaFakeBuilder');
 const TokenFakeBuilder = require('../builders/TokenFakeBuilder');
 
-describe('Route: despesas', () => {
+describe('Route: despesas', function() {
   const { Despesa, Credor, TipoDeDespesa } = app.config.db.models;
   const token = new TokenFakeBuilder().getTokenDeAdmin().build();
   let despesas = undefined;
@@ -45,7 +45,7 @@ describe('Route: despesas', () => {
   });
   describe('POST /api/v1/despesas', function() {
     describe('status 201', function() {
-      it('deve criar uma nova despesa sem dados de pagamento', done => {
+      it('deve criar uma nova despesa sem dados de pagamento', function(done) {
         const novaDespesa = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id).build();
         request.post('/api/v1/despesas')
           .set('Authorization', `Bearer ${token}`)
@@ -56,7 +56,7 @@ describe('Route: despesas', () => {
             done(err);
           });
       });
-      it('deve criar uma nova despesa com dados de pagamento', done => {
+      it('deve criar uma nova despesa com dados de pagamento', function(done) {
         const novaDespesa = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id, true).build();
         request.post('/api/v1/despesas')
           .set('Authorization', `Bearer ${token}`)
@@ -69,7 +69,7 @@ describe('Route: despesas', () => {
       });
     });
     describe('status 400', function() {
-      it('deve retornar status 400 ao tentar cadastrar despesa com valor negativo', done => {
+      it('deve retornar status 400 ao tentar cadastrar despesa com valor negativo', function(done) {
         const novaDespesa = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id).build();
         novaDespesa.valor = -2.0;
         request.post('/api/v1/despesas')
@@ -80,7 +80,7 @@ describe('Route: despesas', () => {
             done(err);
           });
       });
-      it('deve retornar status 400 ao tentar cadastrar despesa com data de pagamento menor que data de competência', done => {
+      it('deve retornar status 400 ao tentar cadastrar despesa com data de pagamento menor que data de competência', function(done) {
         const novaDespesa = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id).build();
         novaDespesa.dataDaCompetencia = moment(moment.now()).format('YYYY-MM-DD');
         novaDespesa.dataDePagamento = moment(moment.now()).subtract(2, 'days').format('YYYY-MM-DD');
@@ -98,7 +98,7 @@ describe('Route: despesas', () => {
             done(err);
           });
       });
-      it('deve retornar status 400 ao tentar cadastrar despesa com data de vencimento menor que data de competência', done => {
+      it('deve retornar status 400 ao tentar cadastrar despesa com data de vencimento menor que data de competência', function(done) {
         const novaDespesa = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id).build();
         novaDespesa.dataDaCompetencia = moment(moment.now()).format('YYYY-MM-DD');
         novaDespesa.dataDeVencimento = moment(moment.now()).subtract(2, 'days').format('YYYY-MM-DD');
@@ -116,7 +116,7 @@ describe('Route: despesas', () => {
             done(err);
           });
       });
-      it('deve retornar status 400 ao tentar cadastrar despesa com desconto maior do que o valor', done => {
+      it('deve retornar status 400 ao tentar cadastrar despesa com desconto maior do que o valor', function(done) {
         const novaDespesa = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id, true).build();
         novaDespesa.desconto = novaDespesa.valor + 10;
         request.post('/api/v1/despesas')
@@ -136,8 +136,8 @@ describe('Route: despesas', () => {
     });
   });
   describe('PUT /api/v1/despesas/:id', function() {
-    describe('status 201', function() {
-      it('deve editar uma despesa pelo id', done => {
+    describe('status 204', function() {
+      it('deve editar uma despesa pelo id', function(done) {
         const despesa = despesas[0].dataValues;
         const despesaEditada = new DespesaFakeBuilder().criaUma(credor.id, tipoDeDespesa.id).build();
         request.put(`/api/v1/despesas/${despesa.id}`)

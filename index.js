@@ -1,19 +1,12 @@
-const path = require('path');
-const errorHandler = require('./utils/errorHandler');
-
-if(process.env.NODE_ENV !== 'test')
-  require('dotenv').config();
-else 
-  require('dotenv').config({
-    path: path.join(__dirname, './test/.env')
-  });
+require('dotenv').config();
 
 const express = require('express')
-  , consign = require('consign');
+  , consign = require('consign')
+  , errorHandler = require('./utils/errorHandler');
 
 const app = express();
 const porta = process.env.SERVIDOR_PORTA;
-const debug = process.env.DEBUG === 'true' ? true : false;
+const debug = eval(process.env.DEBUG);
 
 consign({locale: 'pt-br', verbose: debug})
   .include('config')
