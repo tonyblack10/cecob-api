@@ -2,11 +2,12 @@ const faker = require('faker')
   , TokenFakeBuilder = require('../builders/TokenFakeBuilder');
 
 describe('Route: origens-receitas', function() {
-  const { OrigemDaReceita } = app.config.db.models;
+  const { OrigemDaReceita, Receita } = app.config.db.models;
   const token = new TokenFakeBuilder().getTokenDeAdmin().build();
   let origensDeReceitas = undefined;
 
   beforeEach(async function() {
+    await Receita.destroy({where: {}});
     await OrigemDaReceita.destroy({where: {}});
     await OrigemDaReceita.bulkCreate([
       {descricao: faker.lorem.sentences(1)}, 

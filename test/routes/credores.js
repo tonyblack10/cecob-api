@@ -2,11 +2,12 @@ const faker = require('faker')
   , TokenFakeBuilder = require('../builders/TokenFakeBuilder');
 
 describe('Route: credores', function() {
-  const { Credor } = app.config.db.models;
+  const { Credor, Despesa } = app.config.db.models;
   const token = new TokenFakeBuilder().getTokenDeAdmin().build();
   let credores = undefined;
 
   beforeEach(async function() {
+    await Despesa.destroy({where: {}});
     await Credor.destroy({where: {}});
     await Credor.bulkCreate([
       {descricao: faker.lorem.sentences(1)}, 

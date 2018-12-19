@@ -2,16 +2,17 @@ const faker = require('faker')
   , TokenFakeBuilder = require('../builders/TokenFakeBuilder');
 
 describe('Route: tipos-despesas', function() {
-  const { TipoDeDespesa } = app.config.db.models;
+  const { TipoDeDespesa, Despesa } = app.config.db.models;
   const token = new TokenFakeBuilder().getTokenDeAdmin().build();
   let tiposDeDespesas = undefined;
 
   beforeEach(async function() {
+    await Despesa.destroy({where: {}});
     await TipoDeDespesa.destroy({where: {}});
     await TipoDeDespesa.bulkCreate([
-      {descricao: faker.lorem.sentences(1)}, 
-      {descricao: faker.lorem.sentences(1)}, 
-      {descricao: faker.lorem.sentences(1)}
+      {descricao: faker.lorem.sentences(2)}, 
+      {descricao: faker.lorem.sentences(2)}, 
+      {descricao: faker.lorem.sentences(2)}
     ]);
     tiposDeDespesas = await TipoDeDespesa.findAll({});
   });
