@@ -3,17 +3,40 @@ const tokenUtil = require('../utils/tokenUtil');
 module.exports = app => {
   const { despesasController } = app.controllers;
 
+  /**
+   * @apiDefine DespesaPayload
+   * @apiSuccess {Number} id ID da despesa
+   * @apiSuccess {String} descricao Descrição da despesa
+   * @apiSuccess {String} dataDaCompetencia Data que a despesa foi gerada
+   * @apiSuccess {String} dataDeVencimento Data de vencimento da despesa
+   * @apiSuccess {Number} valor Valor da despesa
+   * @apiSuccess {String} dataDePagamento Data que a despesa foi paga
+   * @apiSuccess {Number} desconto Desconto aplicado à despesa
+   * @apiSuccess {Number} multa Multa aplicada à despesa
+   * @apiSuccess {Object} Credor Credor da despesa
+   * @apiSuccess {Number} Credor.id ID do credor
+   * @apiSuccess {String} Credor.descricao Descrição do credor
+   * @apiSuccess {Object} TipoDeDespesa Tipo da despesa
+   * @apiSuccess {Number} TipoDeDespesa.id ID do tipo de despesa
+   * @apiSuccess {String} TipoDeDespesa.descricao Descrição do tipo de despesa
+  */
   app.route('/api/v1/despesas')
     .all(tokenUtil.validaToken)
     /**
      * @api {post} /api/v1/despesas Salva uma nova despesa
-     * @apiVersion 0.1.0
-     * @apiName salvaDeDespesa
+     * @apiVersion 1.0.0
+     * @apiName salvaDespesa
      * @apiGroup Despesas
      * 
+     * @apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
      * @apiHeader {String} Authorization Token de usuário
      * @apiHeaderExample {json} Header
-     *  {"Authorization": "Bearer xyz.abc.123.hgf"}
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
      * 
      * @apiParam {String} descricao Descrição da despesa
      * @apiParam {String} dataDaCompetencia Data que a despesa foi gerada
@@ -50,7 +73,7 @@ module.exports = app => {
     .post(despesasController.salva)
     /**
      * @api {get} /api/v1/despesas?pagina=0 Lista as despesas
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName listaDespesas
      * @apiGroup Despesas
      * 
@@ -71,20 +94,11 @@ module.exports = app => {
      * @apiParam (query param) {Number} credorId Filtro por credor
      * @apiParam (query param) {Number} tipoId Filtro por tipo de despesa
      * 
-     * @apiSuccess {Number} id ID da despesa
-     * @apiSuccess {String} descricao Descrição da despesa
-     * @apiSuccess {String} dataDaCompetencia Data que a despesa foi gerada
-     * @apiSuccess {String} dataDeVencimento Data de vencimento da despesa
-     * @apiSuccess {Number} valor Valor da despesa
-     * @apiSuccess {String} dataDePagamento Data que a despesa foi paga
-     * @apiSuccess {Number} desconto Desconto aplicado à despesa
-     * @apiSuccess {Number} multa Multa aplicada à despesa
-     * @apiSuccess {Object} Credor Credor da despesa
-     * @apiSuccess {Number} Credor.id ID do credor
-     * @apiSuccess {String} Credor.descricao Descrição do credor
-     * @apiSuccess {Object} TipoDeDespesa Tipo da despesa
-     * @apiSuccess {Number} TipoDeDespesa.id ID do tipo de despesa
-     * @apiSuccess {String} TipoDeDespesa.descricao Descrição do tipo de despesa
+     * @apiSuccess {Number} totalDeElementos Total de elementos no banco de dados
+     * @apiSuccess {Number} totalDePaginas Total de páginas
+     * @apiSuccess {Number} pagina Página atual
+     * @apiSuccess {Object} conteudo Objeto com os elementos da página
+     * @apiUse DespesaPayload
      * 
      * @apiSuccessExample {json} Payload
      *  HTTP/1.1 200 OK
@@ -139,7 +153,7 @@ module.exports = app => {
     .all(tokenUtil.validaToken)
     /**
      * @api {get} /api/v1/despesas Busca uma despesa pelo ID
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName buscaDespesaPeloId
      * @apiGroup Despesas
      * 
@@ -155,20 +169,7 @@ module.exports = app => {
      * 
      * @apiParam {Number} id ID da despesa
      * 
-     * @apiSuccess {Number} id ID da despesa
-     * @apiSuccess {String} descricao Descrição da despesa
-     * @apiSuccess {String} dataDaCompetencia Data que a despesa foi gerada
-     * @apiSuccess {String} dataDeVencimento Data de vencimento da despesa
-     * @apiSuccess {Number} valor Valor da despesa
-     * @apiSuccess {String} dataDePagamento Data que a despesa foi paga
-     * @apiSuccess {Number} desconto Desconto aplicado à despesa
-     * @apiSuccess {Number} multa Multa aplicada à despesa
-     * @apiSuccess {Object} Credor Credor da despesa
-     * @apiSuccess {Number} Credor.id ID do credor
-     * @apiSuccess {String} Credor.descricao Descrição do credor
-     * @apiSuccess {Object} TipoDeDespesa Tipo da despesa
-     * @apiSuccess {Number} TipoDeDespesa.id ID do tipo de despesa
-     * @apiSuccess {String} TipoDeDespesa.descricao Descrição do tipo de despesa
+     * @apiUse DespesaPayload
      * @apiSuccessExample {json} Payload
      *  HTTP/1.1 200 OK
      *  {
@@ -197,10 +198,57 @@ module.exports = app => {
      *  HTTP/1.1 500 Internal Server Error
      */
     .get(despesasController.buscaPorId)
+    /**
+     * @api {put} /api/v1/despesas Edita uma despesa
+     * @apiVersion 1.0.0
+     * @apiName editaDespesa
+     * @apiGroup Despesas
+     * 
+     * @apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
+     * @apiHeader {String} Authorization Token de usuário
+     * @apiHeaderExample {json} Header
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
+     * 
+     * @apiParam {String} descricao Descrição da despesa
+     * @apiParam {String} dataDaCompetencia Data que a despesa foi gerada
+     * @apiParam {String} dataDeVencimento Data de vencimento da despesa
+     * @apiParam {Number} valor Valor da despesa
+     * @apiParam {String} dataDePagamento Data que a despesa foi paga
+     * @apiParam {Number} desconto Desconto aplicado à despesa
+     * @apiParam {Number} multa Multa aplicada à despesa
+     * @apiParam {Number} credores_id ID do credor
+     * @apiParam {Number} tipos_despesas_id ID do tipo de despesa
+     * @apiParamExample {json} Entrada
+     *  {
+     *    "descricao": "IPTU de 2018",
+     *    "dataDaCompetencia": "2018-11-01",
+     *    "dataDeVencimento": "2018-11-10",
+     *    "valor": "310.5",
+     *    "dataDePagamento": "2018-11-05",
+     *    "desconto": "2.13",
+     *    "multa": "0.0",
+     *    "credores_id": "1",
+     *    "tipos_despesas_id": "1"
+     *  }
+     * 
+     * @apiSuccessExample {json} Created
+     *  HTTP/1.1 204 No Content
+     * @apiErrorExample {json} Bad Request
+     *  HTTP/1.1 400 Bad Request
+     * @apiErrorExample {json} Unauthorized
+     *  HTTP/1.1 401 Unauthorized
+     * @apiErrorExample {json} Internal Server Error
+     *  HTTP/1.1 500 Internal Server Error
+    */
     .put(despesasController.edita)
     /**
      * @api {delete} /api/v1/despesas/:id Remove uma despesa
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName removeDespesa
      * @apiGroup Despesas
      * 

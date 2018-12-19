@@ -4,9 +4,17 @@ module.exports = app => {
 
   /**
    * @api {post} /api/v1/login Realiza login
-   * @apiVersion 0.1.0
+   * @apiVersion 1.0.0
    * @apiName realizaLogin
    * @apiGroup Login
+   * 
+   * @apiHeader {String} Content-Type Formato de dado enviado
+   * @apiHeader {String} Accept Formato de dado esperado
+   * @apiHeaderExample {json} Header
+   *  {
+   *    "Content-Type": "application/json",
+   *    "Accept": "application/json"
+   *  }
    * 
    * @apiParam {String} email E-mail do usuário
    * @apiParam {String} senha Senha do usuário

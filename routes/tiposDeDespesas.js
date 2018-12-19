@@ -7,20 +7,24 @@ module.exports = app => {
    * @apiDefine TipoDeDespesaPayload
    * @apiSuccess {Number} id ID do tipo de despesa.
    * @apiSuccess {String} descricao Descrição do tipo de despesa.
-   * 
    */
-
   app.route('/api/v1/tipos-despesas')
     .all(tokenUtil.validaToken)
     /**
      * @api {post} /api/v1/tipos-despesas Salva um tipo de despesa
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName salvaTipoDeDespesa
      * @apiGroup TiposDeDespesas
      * 
+     * @apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
      * @apiHeader {String} Authorization Token de usuário
      * @apiHeaderExample {json} Header
-     *  {"Authorization": "Bearer xyz.abc.123.hgf"}
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
      * 
      * @apiParam {String} descricao Descrição do tipo de despesa
      * @apiParamExample {json} Entrada
@@ -44,13 +48,19 @@ module.exports = app => {
     .post(tiposDeDespesasController.salva)
     /**
      * @api {get} /api/v1/tipos-despesas Busca todos os tipos de despesas
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName buscaTodosOsTiposDeDespesas
      * @apiGroup TiposDeDespesas
      * 
+     * @apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
      * @apiHeader {String} Authorization Token de usuário
      * @apiHeaderExample {json} Header
-     *  {"Authorization": "Bearer xyz.abc.123.hgf"}
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
      * 
      * @apiUse TipoDeDespesaPayload
      * @apiSuccessExample {json} Payload
@@ -76,13 +86,19 @@ module.exports = app => {
     .all(tokenUtil.validaToken)
     /**
      * @api {get} /api/v1/tipos-despesas/:id Busca tipo de despesa pelo ID
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName buscaTipoDeDespesaPeloId
      * @apiGroup TiposDeDespesas
      * 
+     *@apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
      * @apiHeader {String} Authorization Token de usuário
      * @apiHeaderExample {json} Header
-     *  {"Authorization": "Bearer xyz.abc.123.hgf"}
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
      * 
      * @apiParam {Number} id ID do tipo de despesa
      * 
@@ -103,13 +119,19 @@ module.exports = app => {
     .get(tiposDeDespesasController.buscaPorId)
     /**
      * @api {put} /api/v1/tipos-despesas/:id Edita um tipo de despesa
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName editaTipoDeDespesa
      * @apiGroup TiposDeDespesas
      * 
+     * @apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
      * @apiHeader {String} Authorization Token de usuário
      * @apiHeaderExample {json} Header
-     *  {"Authorization": "Bearer xyz.abc.123.hgf"}
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
      * 
      * @apiParam {Number} id ID do tipo de despesa
      * @apiParam {String} descricao Descrição tipo de despesa
@@ -130,13 +152,19 @@ module.exports = app => {
     .put(tiposDeDespesasController.edita)
     /**
      * @api {delete} /api/v1/tipos-despesas/:id Remove um tipo de despesa pelo ID
-     * @apiVersion 0.1.0
+     * @apiVersion 1.0.0
      * @apiName removeTipoDeDespesa
      * @apiGroup TiposDeDespesas
      * 
+     * @apiHeader {String} Content-Type Formato de dado enviado
+     * @apiHeader {String} Accept Formato de dado esperado
      * @apiHeader {String} Authorization Token de usuário
      * @apiHeaderExample {json} Header
-     *  {"Authorization": "Bearer xyz.abc.123.hgf"}
+     *  {
+     *    "Content-Type": "application/json",
+     *    "Accept": "application/json",
+     *    "Authorization": "Bearer xyz.abc.123.hgf"
+     *  }
      * 
      * @apiParam {Number} id ID do tipo de despesa
      * 
