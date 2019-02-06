@@ -10,10 +10,10 @@ describe('Route: login', function() {
   });
 
   describe('POST /api/v1/login', function() {
-    describe('status 201', function() {
-      it('deve retornar status 201 ao tentar logar com dados corretos', function(done) {
+    describe('status 200', function() {
+      it('deve retornar status 200 ao tentar logar com dados corretos', function(done) {
         request.post('/api/v1/login')
-          .expect(204)
+          .expect(200)
           .send({email: usuario.email, senha: '123456'})
           .end(function(err, res) {
             expect(res.header).to.have.any.key('x-access-token');

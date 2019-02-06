@@ -2,9 +2,9 @@ module.exports = app => {
   const { Usuario } = app.config.db.models;
 
   return {
-    buscaTodos: id => {
+    busca: (query = '') => {
       return Usuario.findAll({
-        where: { id: {$ne: id} },
+        where: { nome: { $iLike: `%${query}%` } },
         attributes: ['id', 'nome', 'permissao', 'email', 'status'],
         order: [['nome', 'ASC']]
       });

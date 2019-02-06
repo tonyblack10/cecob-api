@@ -14,7 +14,6 @@ module.exports = app => {
       const novaDespesa = _criaDespesa(req.body);
       try {
         const despesa = await despesaDao.salva(novaDespesa);
-        res.set('Content-Type', 'application/json');
         res.location(`/api/v1/despesas/${despesa.id}`);
         res.sendStatus(201);
       } catch(err) {
@@ -37,7 +36,6 @@ module.exports = app => {
       const despesaEditada = _criaDespesa(req.body);
       try {
         await despesaDao.edita(despesaEditada, req.params.id);
-        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         next(err);
@@ -46,7 +44,6 @@ module.exports = app => {
     remove: async (req, res) => {
       try {
         await despesaDao.remove(req.params.id);
-        res.set('Content-Type', 'application/json');
         res.sendStatus(204);
       } catch(err) {
         res.status(500).json(err);

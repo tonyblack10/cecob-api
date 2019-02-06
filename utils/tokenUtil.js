@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
   validaToken: (req, res, next) => {
-    const dados = _extraiTokenDaRequisicao(req)
+    const dados = _extraiTokenDaRequisicao(req);
     let result;
     if (dados) {
       try {
@@ -30,6 +30,12 @@ module.exports = {
       else 
         next();
     }
+  },
+  getUsuarioLogado: req => {
+    const dados = _extraiTokenDaRequisicao(req);
+    const result = jwt.verify(dados.token, process.env.JWT_SECRET, dados.options);
+
+    return result;
   }
 };
 

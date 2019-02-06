@@ -1,13 +1,16 @@
+const tokenUtil = require('../utils/tokenUtil');
+
 module.exports = app => {
   const { usuarioDao } = app.daos;
 
   return {
     listaTodos: async (req, res) => {
       try {
-        const { id } = req.decoded;
-        const usuarios = await usuarioDao.buscaTodos(id);
+        const { query } = req.query;
+        const usuarios = await usuarioDao.busca(query);
         res.json(usuarios);
       } catch(err) {
+        console.log(err);
         res.status(500).json(err);
       }
     },
@@ -45,6 +48,11 @@ module.exports = app => {
     },
     alteraStatus: async (req, res) => {
       const { status } = req.body;
+      const usuarioLogado = tokenUtil.getUsuarioLogado(req);
+      if(usuarioLogado.id == req.params.id) {
+        res.status(400).json({msg: 'O usuário logado não pode alterar seu próprio status.'});
+        return;
+      }
       try {
         await usuarioDao.editaStatus(status, req.params.id);
         res.set('Content-Type', 'application/json');
@@ -54,6 +62,11 @@ module.exports = app => {
       }
     },
     remove: async (req, res) => {
+      const usuarioLogado = tokenUtil.getUsuarioLogado(req);
+      if(usuarioLogado.id == req.params.id) {
+        res.status(400).json({msg: 'O usuário logado não pode exluir se exluir.'});
+        return;
+      }
       try {
         await usuarioDao.remove(req.params.id);
         res.set('Content-Type', 'application/json');

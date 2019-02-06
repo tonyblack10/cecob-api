@@ -30,7 +30,7 @@ module.exports = app => {
 
             res.set('Content-Type', 'application/json');
             res.set('x-access-token', token);
-            res.sendStatus(204);
+            res.sendStatus(200);
           }
         } catch (err) {
           console.log(err);
